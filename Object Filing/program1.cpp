@@ -7,7 +7,7 @@ int main(){
     // then use the file
     fstream file; 
 
-    file.open("Object_Filing.txt",ios::out); // if this filw won't be present it will create and open the file
+    file.open("file.txt",ios::out); // if this filw won't be present it will create and open the file
 
     file<<"This is a object filing file smjh gye!!"<<endl;
 

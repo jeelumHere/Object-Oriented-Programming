@@ -5,7 +5,7 @@ using namespace std;
 
 int main(){
     fstream file;
-    file.open("Object_Filing.txt",ios::in);
+    file.open("file.txt",ios::in);
 
     char c;
     while(file.get(c)){
