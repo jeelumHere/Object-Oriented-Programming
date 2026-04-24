@@ -1,3 +1,0 @@
-My self syed sharjeel ahmed.
-I am a computer science student.
-Currently I am practicing File handling in oops.
