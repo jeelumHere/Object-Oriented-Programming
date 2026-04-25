@@ -92,6 +92,8 @@ void readFile()
 		}
 		file.close();
 	}
+
+
 	void updateRecord()
 	{
 		fstream file("record.txt",ios::binary|ios::in|ios::out);
@@ -151,7 +153,7 @@ void readFile()
 				 }
 				 file.read((char*)this, sizeof(*this));
 
-			 }
+			 }	
 			 if (count == 0)
 				 cout << "\nRecord not found";
 			 else
