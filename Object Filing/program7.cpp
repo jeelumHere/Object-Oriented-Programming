@@ -156,18 +156,20 @@ int main()
         int choice;
         cout<<"Press 1 to write data"<<endl;
         cout<<"Press 2 to read data"<<endl;
-        cout<<"Press 3 to delete data"<<endl;
-        cout<<"Press 4 to update data"<<endl;
-        cout<<"Press 5 to exit"<<endl;
+        cout<<"Press 3 to search data"<<endl;
+        cout<<"Press 4 to delete data"<<endl;
+        cout<<"Press 5 to update data"<<endl;
+        cout<<"Press 6 to exit"<<endl;
         cout<<"Enter choice : ";
         cin>>choice;
         switch(choice)
         {
             case 1: s1.writeData(); break;
             case 2: s1.readData(); break;
-            case 3: s1.deleteData(); break;
-            case 4: s1.updateData(); break;
-            case 5: con = false; break;
+            case 3: s1.searchData(); break;
+            case 4: s1.deleteData(); break;
+            case 5: s1.updateData(); break;
+            case 6: con = false; break;
             default : cout<<"Enter appropriate choice"<<endl;
         }
     }

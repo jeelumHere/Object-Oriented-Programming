@@ -38,7 +38,7 @@ public:
 		file.close();
 	}
 	
-void readFile()
+    void readFile()
 	{
 		int count = 0;
 		fstream file("record.txt", ios::binary | ios::in);
@@ -65,6 +65,8 @@ void readFile()
 				cout<<"\nTotal Records found="<<count;
 		file.close();
 	}
+
+
 	void searchFile()
 	{
 		fstream file("record.txt",ios::binary|ios::in);
@@ -129,6 +131,8 @@ void readFile()
 		}
 		file.close();
 	}
+
+	
 	void deleteRecord()
 	{
 		fstream file("record.txt",ios::binary|ios::in|ios::out);
