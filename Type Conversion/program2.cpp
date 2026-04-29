@@ -12,12 +12,15 @@ class Number{
         this->b1 = 10.00;
         this->c1 = '.';
     }
+
+
     Number(float b1){
         this->a1 = 10;
         this->b1 = b1;
         this->c1 = '.';
-
     }
+
+
     Number(char c1){
         this->a1 = 10;
         this->b1 = 10.00;
