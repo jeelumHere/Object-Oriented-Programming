@@ -21,7 +21,7 @@ class SafeArray{
         cout<<endl;
     }
 
-    int operator [] (int index){
+    int& operator [] (int index){
         if(index<0 || index>=5){
             cout<<"Array out of bounds"<<endl;
         }
@@ -32,6 +32,7 @@ class SafeArray{
 
 int main(){
     SafeArray obj1;
+    obj1[2]=100;
     for(int n=0;n<5;n++)
     cout<<obj1[n]<<" , ";
     
