@@ -14,39 +14,159 @@
     For Exit press 7 */
 
 #include<iostream>
-#include<string>
+#include<cstring>
+#include<fstream>
 using namespace std;
 
 class Person{
-    int contact;
-    string name;
 
-    public :
-    Person(int contact, string name){
-        this->contact = contact;
-        this->name = name;
+
+    public : 
+     int contact;
+    string name;
+    void getData(){
+        cout<<"Enter person name : "; cin>>name;
+        cout<<"Enter contact number : "; cin>>contact;
+    }
+    void showData(){
+        cout<<"Name : "<<name<<endl;
+        cout<<"Contact : "<<contact<<endl;
+    }
+
+};
+
+class Cow{
+    Person p[7];
+    static double price;
+    static int pCount;
+    public : 
+    void book(){
+        if(pCount>=0 && pCount<7){
+            cout<<"Enter person no "<<pCount+1<<"details"<<endl;
+            p[pCount].getData();
+            pCount++;
+        }
+        else{
+            cout<<"No booking available for this cow anymore"<<endl;
+        }
+    }
+
+    void searchCowPerson(int cont){
+        for(int n=0;n<pCount;n++){
+            if(cont==p[n].contact){
+                cout<<"Detail of the person.";
+                p[n].showData();
+            }
+            else{
+                cout<<"No detail found for that contact"<<endl;
+            }
+        }
+    }
+
+    void display(){
+        cout<<"Cow share price : "<<price<<endl;
+        for(int n=0;n<=pCount; n++){
+            cout<<n+1<<" share holder data out of 7"<<endl;
+            p[n].showData();
+        }
     }
 };
-
-// Cow is ahred in 7 persons.
-class Cow{
-    const double price;
-};
-
-double cow::price = 25000;
 
 class Goat{
+    Person p;
+    double price;
+    public : 
+    void book(){
+        cout<<"Enter goat price : ";
+        cin>>price;
+        cout<<"Enter goat owner details : "<<endl;
+        p.getData();
+    }
+
+    void searchGoatPerson(int cont){
+        if(cont==p.contact){
+            cout<<"Goat owner detail : "<<endl;
+            p.showData();
+        }
+    }
+
+    void display(){
+        cout<<"Goat price : "<<price<<endl;
+        cout<<"goat owner detail : "<<endl;
+        p.showData();
+    }
 };
 
+double Cow::price = 25000;
+int Cow::pCount = 0;
 
 int main(){
+    Goat g[100];
+    int gCount = 0;
+    int personOnCow = 0;
+    Cow c[100];
+    int cCount = 0;
+    int cont;
+    bool con = true;
+
     do{
-        cout<<"Press 1 to : "<<endl;
-        cout<<"Press 2 to : "<<endl;
-        cout<<"Press 3 to : "<<endl;
-        cout<<"Press 4 to : "<<endl;
-        cout<<"Press 5 to : "<<endl;
-        cout<<"Press 6 to : "<<endl;
-        cout<<"Press 7 to exit : "<<endl;
+        cout<<"For Goat booking press 1"<<endl;
+        cout<<"For Cow sharing booking press 2"<<endl;
+        cout<<"For display all Goat booking press 3"<<endl;
+        cout<<"For display all Cow booking press 4"<<endl;
+        cout<<"For Search Goat on Person’s contact basis press 5 "<<endl;
+        cout<<"For Search Cow Share on Person’s contact basis press 6"<<endl;
+        cout<<"For exit press 7."<<endl;
+        cout<<"Enter choice  : "; int choice; cin>>choice;
+
+        switch(choice){
+            case 1: 
+            g[gCount].book();
+            gCount++;
+            break;
+
+            case 2:
+            personOnCow++;
+            if(personOnCow>=7){
+                cCount++;
+                personOnCow = 0;
+            }
+            c[cCount].book();
+            break;
+
+            case 3:
+            for(int n=0;n<gCount;n++){
+                g[n].display();
+            }
+            break;
+
+
+            case 4:
+            for(int n=0;n<=cCount; n++){
+                c[n].display();
+            }
+            break;
+
+            case 5:
+            cout<<"Enter person contact .";  cin>>cont;
+            for(int n=0;n<gCount; n++){
+                g[n].searchGoatPerson(cont);
+            }
+            break;
+
+            case 6: 
+            cout<<"Enter person contact ."; cin>>cont;
+            for(int n=0;n<cCount; n++){
+                c[n].searchCowPerson(cont);
+            }
+            break;
+            case 7 : 
+            con = false;
+            break;
+
+            default: 
+            cout<<"Enter ppropiae choice"<<endl;
+        }
     }
+    while(con);
 }
