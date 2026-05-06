@@ -14,20 +14,21 @@
 using namespace std;
 
 class Laptop{
-    string name;
-    string model;
+    char name[50];
+    int id;
     double price;
 
     public : 
     void input(){
-        cout<<"Enter name : "; cin>>name;
-        cout<<"Enter model : "; cin>>model;
+        cout<<"Enter name : "; cin.getline(name,50);
+        cout<<"Enter id : "; cin>>id;
         cout<<"Enter price : "; cin>>price;
+        cin.ignore();
     }
 
     void show(){
         cout<<"Name : "<<name<<endl;
-        cout<<"Model : "<<model<<endl;
+        cout<<"Id : "<<id<<endl;
         cout<<"Price : "<<price<<endl;
     }
 
@@ -42,29 +43,85 @@ class Laptop{
 
         else{
             input();
-            file.write((char*)this,sizeof(*this));
+            file.write(reinterpret_cast<char*>(this) , sizeof(Laptop));
             file.close();
         }
     }
 
 
     void readData(){
-        fstream file;
-        file.open("file.txt",ios::binary | ios::in);
+        ifstream file;
+        file.open("file.txt", ios::binary);
         if(!file){
             cout<<"Error in file loading!"<<endl;
         }
         else{
-            while(!file.eof()){
-                file.read((char*)this , sizeof(*this));
+            while(file.read((char*)this, sizeof(*this))){
                 show();
             }
         }
         file.close();
     }
+
+    void searchData(){
+        int sid;
+        cout<<"Enter id to search : ";
+        cin>>sid;
+        int count=0;
+        fstream file;
+        file.open("file.txt",ios::in | ios::binary);
+        while(file.read((char*)this , sizeof(*this)))
+        {
+            if(id==sid){
+                count++;
+                show();
+            }
+        }
+        count==0? cout<<"No record matched." : cout<<count<<" records mathced"<<endl;
+        file.close();
+    }
+
+void deleteData() {
+    int sid;
+    int count = 0;
+    cout << "Enter id to delete record: ";
+    cin >> sid;
+
+    fstream file, tempFile;
+    file.open("file.txt",     ios::binary | ios::in);
+    tempFile.open("temp.txt", ios::binary | ios::out);
+
+    if (!file) {
+        cout << "File does not exist.\n";
+        tempFile.close();
+        return;                // ✅ stop here — don't run remove/rename
+    }
+
+    while (file.read(reinterpret_cast<char*>(this), sizeof(Laptop))) {
+        if (id == sid) {
+            cout << "Record deleted:\n";
+            show();
+            count++;
+        } else {
+            tempFile.write(reinterpret_cast<char*>(this), sizeof(Laptop));
+        }
+    }
+
+    file.close();
+    tempFile.close();          // ✅ close before rename/remove
+
+    remove("file.txt");
+    rename("temp.txt", "file.txt");
+
+    if (count == 0)
+        cout << "No record found.\n";
+    else
+        cout << count << " record(s) deleted.\n";
+}
 };
 
 int main(){
     Laptop lt1;
+    lt1.deleteData();
     lt1.readData();
 }
