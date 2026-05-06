@@ -1,26 +1,21 @@
+
 #include<iostream>
-#include<string>
 using namespace std;
 
-class String{
-    string name;
+template <class t>
+class Currency{
+    t usd;
+    t pkr;
+    t euro;
 
-    public :
-    void setName(){
-        cout<<"Enter name : ";getline(cin,name);
+    public : 
+    Currency(t usd){
+        this->usd = usd;
+        pkr =(1.0/(275.0 * usd));
+        euro = (0.90*usd);
     }
-    char getName(int index)
-    {
-        if(index>=0 && index<name.length())
-        return name[index];
-        else{
-            return '0';
-        }
+
+    void AddCurrency(t curr1, t curr2){
+        curr1 = 
     }
 };
-
-int main(){
-    String s1;
-    s1.setName();
-    cout<<"Chracter : " <<s1.getName(5);
-}
