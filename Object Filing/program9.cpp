@@ -118,10 +118,46 @@ void deleteData() {
     else
         cout << count << " record(s) deleted.\n";
 }
+
+
+void updateRecord()
+	{
+		fstream file("record.txt",ios::binary|ios::in|ios::out);
+		/*we will not use ios::app because we need random updation,
+		however ios::app only allow updation after the eof
+		*/
+		if(!file) 
+		    cout<<"\nFile Reading error....";
+		else
+		{    cout<<"\nEnter id  you want to update:";
+		     int sid;  int count=0;
+		     cin>>sid;
+		     file.read((char*)this, sizeof(*this));
+		     while(!file.eof())
+			 {
+				if(sid==id)
+				{
+					count++;
+					streampos rposition=file.tellg();
+					 int size=sizeof(*this);
+
+					file.seekp((int)rposition - size);
+					input();
+					file.write((char*)this, sizeof(*this));
+					break; 	//removing one record at a time
+				}
+				file.read((char*)this, sizeof(*this));
+			 }
+			 if(count==0)
+				cout<<"\nRecord not found";
+			 else
+				cout<<"\n"<<count<<" Record updated successfully";
+		}
+		file.close();
+	}
 };
 
 int main(){
     Laptop lt1;
-    lt1.deleteData();
-    lt1.readData();
+    lt1.updateRecord();
 }
