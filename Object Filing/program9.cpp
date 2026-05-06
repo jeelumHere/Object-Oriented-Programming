@@ -64,100 +64,132 @@ class Laptop{
     }
 
     void searchData(){
-        int sid;
-        cout<<"Enter id to search : ";
-        cin>>sid;
-        int count=0;
+        int count = 0;
         fstream file;
-        file.open("file.txt",ios::in | ios::binary);
-        while(file.read((char*)this , sizeof(*this)))
-        {
-            if(id==sid){
-                count++;
-                show();
+        file.open("file.txt",ios::binary | ios::in);
+
+        if(!file){
+            cout<<"File does not exist"<<endl;
+            return;
+        }
+        else{
+            cout<<"Enter id to search..   : ";int sid; cin>>sid;
+            while(file.read((char*)this,sizeof(*this))){
+                if(sid==id)
+                {
+                    show();
+                    count++;
+                }
             }
         }
-        count==0? cout<<"No record matched." : cout<<count<<" records mathced"<<endl;
+        if(count==0){
+            cout<<"No record matched"<<endl;
+        }
+        else{
+            cout<<count<<" reacord mathced"<<endl;
+        }
         file.close();
     }
 
-void deleteData() {
-    int sid;
-    int count = 0;
-    cout << "Enter id to delete record: ";
-    cin >> sid;
 
-    fstream file, tempFile;
-    file.open("file.txt",     ios::binary | ios::in);
-    tempFile.open("temp.txt", ios::binary | ios::out);
+    void deleteData(){
+        fstream file,tempFile;
+        file.open("file.txt",ios::in | ios:: binary);
+        tempFile.open("tempfile.txt",ios::out | ios::binary);
 
-    if (!file) {
-        cout << "File does not exist.\n";
-        tempFile.close();
-        return;                // ✅ stop here — don't run remove/rename
-    }
-
-    while (file.read(reinterpret_cast<char*>(this), sizeof(Laptop))) {
-        if (id == sid) {
-            cout << "Record deleted:\n";
-            show();
-            count++;
-        } else {
-            tempFile.write(reinterpret_cast<char*>(this), sizeof(Laptop));
+        if(!file || !tempFile){
+            cout<<"Files do not exist"<<endl;
+            return;
         }
+        else{
+            cout<<"Enter id t delete record  : "; int did; cin>>did;
+            while(file.read((char*)this , sizeof(*this))){
+                if(did==id){
+                    cout<<"Record Found"<<endl;
+                }
+                else{
+                    tempFile.write((char*)this, sizeof(*this));
+                }
+            }
+        }
+        file.close();
+        tempFile.close();
+        remove("file.txt");
+        rename("tempfile.txt","file.txt");
     }
 
-    file.close();
-    tempFile.close();          // ✅ close before rename/remove
+    void updateData(){
+        cout<<"code updation."<<endl;
+        fstream file;
+        file.open("file.txt",ios::in | ios:: out | ios::binary);
+        if(!file){
+            cout<<"File not found"<<endl;
+            return;
+        }
+        else{
+            cout<<"Enter id to update record : "; int uid; cin>>uid;
+            while(file.read((char*)this , sizeof(*this))){
+                if(uid==id){
+                    file.seekp(file.tellg() - sizeof(Laptop));
+                    input();
+                    file.write((char*)this , sizeof(*this));
+                }
+            }
+        }
+        file.close();
+    }
 
-    remove("file.txt");
-    rename("temp.txt", "file.txt");
-
-    if (count == 0)
-        cout << "No record found.\n";
-    else
-        cout << count << " record(s) deleted.\n";
-}
-
-
-void updateRecord()
-	{
-		fstream file("record.txt",ios::binary|ios::in|ios::out);
-		/*we will not use ios::app because we need random updation,
-		however ios::app only allow updation after the eof
-		*/
-		if(!file) 
-		    cout<<"\nFile Reading error....";
-		else
-		{    cout<<"\nEnter id  you want to update:";
-		     int sid;  int count=0;
-		     cin>>sid;
-		     file.read((char*)this, sizeof(*this));
-		     while(!file.eof())
-			 {
-				if(sid==id)
-				{
-					count++;
-					streampos rposition=file.tellg();
-					 int size=sizeof(*this);
-
-					file.seekp((int)rposition - size);
-					input();
-					file.write((char*)this, sizeof(*this));
-					break; 	//removing one record at a time
-				}
-				file.read((char*)this, sizeof(*this));
-			 }
-			 if(count==0)
-				cout<<"\nRecord not found";
-			 else
-				cout<<"\n"<<count<<" Record updated successfully";
-		}
-		file.close();
-	}
 };
-
+// seekg & seekp
+// tellg & tellp
+// g -> get pointer  (reading pointer)
+// p -> put pointer  (writing pointer)
+// tell it only gives information.
+// seek it moves the pointer.
+// mainly used tellg & seekp.
 int main(){
     Laptop lt1;
-    lt1.updateRecord();
+    bool condition = true;
+
+    do{
+        cout<<"Enter 1 to write data "<<endl;
+        cout<<"Enter 2 to read data "<<endl;
+        cout<<"Enter 3 to search data "<<endl;
+        cout<<"Enter 4 to delete data "<<endl;
+        cout<<"Enter 5 to update data "<<endl;
+        cout<<"Enter 6 to exit"<<endl;
+        cout<<"Enter choice : "; int choice; cin>>choice;
+        switch(choice){
+            case 1 : 
+            lt1.writeData();
+            break;
+
+            case 2 : 
+            lt1.readData();
+            break;
+
+            case 3 : 
+            lt1.searchData();
+            break;
+
+            case 4 : 
+            lt1.deleteData();
+            break;
+
+            case 5 : 
+            lt1.updateData();
+            break;
+
+            case 6 : 
+            condition = false;
+            break;
+
+            default : 
+            cout<<"Enter appropriate choice"<<endl;
+
+        }
+    }
+    while(condition);
 }
+
+

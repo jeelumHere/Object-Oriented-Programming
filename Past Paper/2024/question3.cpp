@@ -18,6 +18,7 @@ class SmartDevice{
 };
 
 class SmartLight : public SmartDevice{
+    public : 
     void turnOn() override {
         status = "On" ;
         cout<<"<<<<<------>>>>>"<<endl;
@@ -34,6 +35,8 @@ class SmartLight : public SmartDevice{
     }
 };
 class SmartFan : public SmartDevice{
+    public : 
+
     void turnOn() override {
         status = "On" ;
         cout<<"<<<<<------>>>>>"<<endl;
@@ -50,6 +53,8 @@ class SmartFan : public SmartDevice{
     }
 };
 class SmartThermoStat : public SmartDevice{
+    public : 
+
     void turnOn() override {
         status = "On" ;
         cout<<"<<<<<------>>>>>"<<endl;
