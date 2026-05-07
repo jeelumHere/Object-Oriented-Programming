@@ -1,90 +1,59 @@
-// Question #3:	(Approximate time to solve: 25min)				(Covering CLO: 2)          08 Marks
-// Design and implement the energy efficient system to reduce electricity expense at Arid Agriculture University Rawalpindi and monitoring these three SmartDevice  i.e. SmartLight, SmartFan, and SmartThermostat. All the parent and child classes should have the functionality of turnOn(), turnOff(), and getStatus(). Using the base class pointer you have to call the own functions of each device separately. Also draw the class hierarchy for these devices and mention important points in each class.
+/*
+You are required to create a class template in C++ to calculate the area of a triangle given its three sides. The sides of the triangle can be of different numeric types such as integers, floats, or doubles. calcArea() function should be non inline function of the class. Main function is also required which shows multiple instances of class template. The formula to calculate the area is based on Heron’s formula:
+*/
 
-
-#include<iostream>
-#include<cstring>
+#include <iostream>
+#include <cmath>
 using namespace std;
 
-class SmartDevice{
+template <class T>
+class Area {
+    T a, b, c;
 
-    protected: 
-    string status;
-    public : 
-    void virtual turnOn() = 0;
-    void virtual turnOff() = 0;
-    void virtual getStatus() = 0;
+public:
+    Area(T a, T b, T c) : a(a), b(b), c(c) {}
 
+    void input(T a, T b, T c) {
+        this->a = a;
+        this->b = b;
+        this->c = c;
+    }
+
+    bool isValidTriangle() {
+        return (a + b > c) && (a + c > b) && (b + c > a);
+    }
+
+    // Non-inline: defined outside the class body below
+    void calcArea();
 };
 
-class SmartLight : public SmartDevice{
-    public : 
-    void turnOn() override {
-        status = "On" ;
-        cout<<"<<<<<------>>>>>"<<endl;
-        cout<<"<<<Turning on light>>>>>"<<endl;
+// ✅ Non-inline definition outside the class
+template <class T>
+void Area<T>::calcArea() {
+    if (!isValidTriangle()) {
+        cout << "Invalid triangle with sides ("
+             << a << ", " << b << ", " << c << ")" << endl;
+        return;
+    }
 
-    }
-    void turnOff() override {
-        status = "Off" ;
-        cout<<"<<<<<------>>>>>"<<endl;
-        cout<<"<<<Turning off light>>>>>"<<endl;
-    }
-    void getStatus() override {
-        cout<<"Status : "<< status<<endl;
-    }
-};
-class SmartFan : public SmartDevice{
-    public : 
+    double s = (a + b + c) / 2.0;          // semi-perimeter
+    double res = s * (s-a) * (s-b) * (s-c);
+    cout << "Sides (" << a << ", " << b << ", " << c << ")"
+         << "  =>  Area = " << sqrt(res) << endl;
+}
 
-    void turnOn() override {
-        status = "On" ;
-        cout<<"<<<<<------>>>>>"<<endl;
-        cout<<"<<<Turning on Fan>>>>>"<<endl;
+int main() {
+    Area<int>    a1(3, 4, 5);          // classic right triangle
+    Area<int>    a2(10, 13, 4);        // valid int triangle
+    Area<float>  a3(5.5f, 6.5f, 7.0f);// float sides
+    Area<double> a4(10.10, 13.34, 4.5);// double sides
+    Area<int>    a5(10, 13, 40);       // invalid triangle
 
-    }
-    void turnOff() override {
-        status = "Off" ;
-        cout<<"<<<<<------>>>>>"<<endl;
-        cout<<"<<<Turning off Fan>>>>>"<<endl;
-    }
-    void getStatus() override {
-        cout<<"Status : "<< status<<endl;
-    }
-};
-class SmartThermoStat : public SmartDevice{
-    public : 
+    a1.calcArea();
+    a2.calcArea();
+    a3.calcArea();
+    a4.calcArea();
+    a5.calcArea();
 
-    void turnOn() override {
-        status = "On" ;
-        cout<<"<<<<<------>>>>>"<<endl;
-        cout<<"<<<Turning on ThermoStat>>>>>"<<endl;
-    }
-    void turnOff() override {
-        status = "Off" ;
-        cout<<"<<<<<------>>>>>"<<endl;
-        cout<<"<<<Turning off ThermoStat>>>>>"<<endl;
-    }
-    void getStatus() override {
-        cout<<"Status : "<< status<<endl;
-    }
-};
-
-int main(){
-    SmartDevice *smDev;
-    SmartLight smL;
-    SmartFan smf;
-    SmartThermoStat smt;
-    smDev = &smL;
-    smDev->turnOff();
-    smDev->turnOn();
-    smDev->getStatus();
-    smDev = &smf;
-    smDev->turnOff();
-    smDev->turnOn();
-    smDev->getStatus();
-    smDev = &smt;
-    smDev->turnOff();
-    smDev->turnOn();
-    smDev->getStatus();
+    return 0;
 }
