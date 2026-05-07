@@ -25,23 +25,21 @@ class Currency{
 
     public :
     Currency():amount(10.0),code("USD"){}
-    Currency(T a, string c) : amount(a), code(c) {
+    Currency(T a,string c):amount(a),code(c){
+        if(code=="usd" || code=="Usd" || code=="USD")
+        amount = amount;
 
-    if (code == "usd" || code == "Usd" || code == "USD")
-        amount = (double)a;                  // ✅ store as-is in USD
+        else if(code=="eur" || code=="Eur" || code=="EUR")
+        amount = (0.90 * amount);
 
-    else if (code == "eur" || code == "Eur" || code == "EUR")
-        amount = (double)a / 0.90;           // ✅ EUR → USD (divide, not multiply)
+        else if(code=="pkr" || code=="Pkr" || code=="PKR")
+        amount = (double)a/(275.0);
 
-    else if (code == "pkr" || code == "Pkr" || code == "PKR")
-        amount = (double)a / 275.0;          // ✅ PKR → USD (already fixed)
+        else{code = "USD";amount = amount;}
 
-    else {
-        amount = (double)a;                  // ✅ treat unknown as USD
+        code="USD";
+
     }
-
-    code = "USD";                            // ✅ normalize stored code
-}
 
     void getData(){
         cout<<"Enter Amount : "; cin>>amount;

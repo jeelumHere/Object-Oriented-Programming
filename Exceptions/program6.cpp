@@ -5,7 +5,7 @@
 // There are mutiple catches.
 // Catch is run on the basis of data type thrown as an error
 
-//REason to use exceptions : To control run time error
+//Reason to use exceptions : To control run time error
 #include<iostream>
 using namespace std;
 
@@ -21,13 +21,6 @@ class Distance{
         if(meters<0)
         throw meters;  // since meters is an integer and we are throwing it as an error so catch with int data type will run
 
-
-        // if(meters<0){
-        //     cout<<"Distnac entered is negative"<<endl;
-        // }
-        // else{
-        //     cout<<"Distance is positive or zero."<<endl;
-        // }
     }
 
     Distance(double i){
